@@ -1,0 +1,9 @@
+@if (weatherReport(); as weatherReport) {
+  @if (weatherReport | TypeIsIcaoReport) {
+    Found
+  } @else if (weatherReport | TypeIsIcaoReportNotFound) {
+    Not Found
+  }
+} @else {
+  Start side
+}
