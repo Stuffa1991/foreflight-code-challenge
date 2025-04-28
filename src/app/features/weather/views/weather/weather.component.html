@@ -1,3 +1,14 @@
 <div class="container">
-  <router-outlet [routerOutletData]="weatherReport()"/>
+  @if (!isDefaultView()) {
+    <div>
+      <a routerLink="/weather">Back</a>
+    </div>
+    <div class="input__field">
+      Field
+    </div>
+  }
+
+  <router-outlet
+    [routerOutletData]="weatherReport()"
+  />
 </div>

@@ -18,6 +18,9 @@ export const routes: Routes = [
           import('./components/default/default.component').then(
             component => component.DefaultComponent
           ),
+        data: {
+          isDefaultView: true,
+        },
       },
       {
         path: 'metar',

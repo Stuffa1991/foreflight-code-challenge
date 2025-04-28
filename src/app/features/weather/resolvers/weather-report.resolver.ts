@@ -10,6 +10,8 @@ export const weatherReportResolver: ResolveFn<
   const icaoCode =
     route.params['icaoCode'] || route.firstChild?.params['icaoCode'];
 
+  console.log(icaoCode);
+
   if (!icaoCode) {
     console.error('No ICAO code provided in route parameters.');
     return null;

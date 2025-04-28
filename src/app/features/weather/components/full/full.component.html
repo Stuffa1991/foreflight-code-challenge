@@ -1,11 +1,7 @@
 <div>
-  <a routerLink="/weather">Back</a>
-</div>
-
-<div>
   <h1>Full</h1>
 </div>
 
 @if (weatherReport(); as weatherReport) {
-  <app-weather-report [weatherReportInput]="weatherReport"/>
+  <app-weather-report [weatherReportInput]="weatherReport" weatherReportTypeInput="FULL"/>
 }

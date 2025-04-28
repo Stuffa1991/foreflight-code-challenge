@@ -1,11 +1,11 @@
 import { Component, inject, Signal } from '@angular/core';
-import { ROUTER_OUTLET_DATA, RouterLink } from '@angular/router';
+import { ROUTER_OUTLET_DATA } from '@angular/router';
 import { WeatherReportViewModel } from '@app/features/weather/models/weather-report-view.model';
 import { WeatherReportComponent } from '@app/shared/components/weather-report/weather-report.component';
 
 @Component({
   selector: 'app-taf',
-  imports: [RouterLink, WeatherReportComponent],
+  imports: [WeatherReportComponent],
   templateUrl: './taf.component.html',
   styleUrl: './taf.component.scss',
   standalone: true,
