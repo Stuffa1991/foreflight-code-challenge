@@ -35,7 +35,6 @@ export class WeatherReportService {
     } catch (error: unknown) {
       if (error instanceof HttpErrorResponse) {
         if (error.status === 404) {
-          console.log(error);
           console.error('Weather report not found for ICAO code:', ICAOCode);
           return error.error as IcaoReportRequestModel;
         }

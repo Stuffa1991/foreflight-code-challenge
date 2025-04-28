@@ -3,7 +3,7 @@ import { ResolveFn } from '@angular/router';
 
 import { weatherReportResolver } from './weather-report.resolver';
 
-describe('weatherReportResolver', () => {
+describe('weatherMetarResolver', () => {
   const executeResolver: ResolveFn<boolean> = (...resolverParameters) =>
     TestBed.runInInjectionContext(() =>
       weatherReportResolver(...resolverParameters)

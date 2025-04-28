@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { IcaoReportRequestNotFoundModel } from '@app/features/weather/models/icao-report-request-not-found.model';
-import { IcaoReportRequestModel } from '@app/features/weather/models/icao-report-request.model';
+import { WeatherReportViewModel } from '@app/features/weather/models/weather-report-view.model';
 
 @Pipe({
   name: 'TypeIsIcaoReportNotFound',
@@ -8,8 +8,10 @@ import { IcaoReportRequestModel } from '@app/features/weather/models/icao-report
 })
 export class TypeIsIcaoReportNotFoundPipe implements PipeTransform {
   transform(
-    model: IcaoReportRequestNotFoundModel | IcaoReportRequestModel
+    model: WeatherReportViewModel
   ): model is IcaoReportRequestNotFoundModel {
+    if (!model) return false;
+
     return 'status' in model && model.status === 404;
   }
 }

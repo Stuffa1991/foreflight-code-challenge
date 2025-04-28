@@ -7,7 +7,8 @@ import { IcaoReportRequestNotFoundModel } from '@app/features/weather/models/ica
 export const weatherReportResolver: ResolveFn<
   IcaoReportRequestModel | IcaoReportRequestNotFoundModel | null
 > = (route, state) => {
-  const icaoCode = route.params['icaoCode'];
+  const icaoCode =
+    route.params['icaoCode'] || route.firstChild?.params['icaoCode'];
 
   if (!icaoCode) {
     console.error('No ICAO code provided in route parameters.');
