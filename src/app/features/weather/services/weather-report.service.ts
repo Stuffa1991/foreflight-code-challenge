@@ -44,7 +44,7 @@ export class WeatherReportService {
     }
 
     try {
-      return firstValueFrom(
+      const response = await firstValueFrom(
         this.http
           .get<IcaoReportRequestModel>(`/weather/report/${matchedICAOCode}`, {
             headers: this.headers,
@@ -62,6 +62,8 @@ export class WeatherReportService {
             })
           )
       );
+
+      return response;
     } catch (error: unknown) {
       if (error instanceof HttpErrorResponse) {
         if (error.status === 404) {
@@ -75,5 +77,11 @@ export class WeatherReportService {
 
       throw error;
     }
+  }
+
+  isIcaoReportRequestModel(
+    report: IcaoReportRequestModel | IcaoReportRequestNotFoundModel | null
+  ): report is IcaoReportRequestModel {
+    return (report && 'report' in report) || false;
   }
 }

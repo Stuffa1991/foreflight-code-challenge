@@ -20,8 +20,6 @@ import {
 } from '@angular/forms';
 import { WeatherReportService } from '@app/features/weather/services/weather-report.service';
 import { DatePipe } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
-import { IcaoReportRequestNotFoundModel } from '@app/features/weather/models/icao-report-request-not-found.model';
 
 @Component({
   selector: 'app-metar-component',
@@ -64,18 +62,14 @@ export class WeatherReportComponent {
         const icaoCode = this.searchForm.get('icaoCode')?.value;
         const weatherReport =
           await this.weatherService.getWeatherReportByICAOCode(icaoCode);
+
         this.weatherReport.update(() => weatherReport);
 
-        this.previousSearches.update(previousSearches => {
-          previousSearches.add(icaoCode);
-          return previousSearches;
-        });
-      } catch (error) {
-        if (error instanceof HttpErrorResponse) {
-          if (error.status === 404) {
-            const model = error.error as IcaoReportRequestNotFoundModel;
-            this.weatherReport.update(() => model);
-          }
+        if (this.weatherService.isIcaoReportRequestModel(weatherReport)) {
+          this.previousSearches.update(previousSearches => {
+            previousSearches.add(icaoCode);
+            return previousSearches;
+          });
         }
       } finally {
         this.isFetchingNewReport.update(() => false);
