@@ -132,11 +132,32 @@
                   {{ forecast.wind.from }}° at {{ forecast.wind.speedKts }} kts
                 </div>
               </div>
-              <!--              // flight rules-->
-                <!--              // winds-->
-                <!--              // visibility-->
-                <!--              // clouds-->
-                <!--              // expires-->
+              <div class="weather-report__forecast weather-report__forecast--padding-left-right">
+                <div class="weather-report__forecast-name">
+                  Visibility
+                </div>
+                <div class="weather-report__forecast-value">
+                  {{ forecast.visibility.distanceSm }} sm
+                </div>
+              </div>
+              <div class="weather-report__forecast weather-report__forecast--padding-left-right">
+                <div class="weather-report__forecast-name">
+                  Clouds (AGL)
+                </div>
+                <div class="weather-report__forecast-value">
+                  @for (cloudLayer of forecast.cloudLayersV2; track $index) {
+                    {{ cloudLayer.coverage }} {{ cloudLayer.altitudeFt }}'
+                  }
+                </div>
+              </div>
+              <div class="weather-report__forecast weather-report__forecast--padding-left-right">
+                <div class="weather-report__forecast-name">
+                  Expires
+                </div>
+                <div class="weather-report__forecast-value">
+                  {{ forecast.period.dateEnd | date:'shortTime':'CDT' }} CDT
+                </div>
+              </div>
             }
           </div>
         }
