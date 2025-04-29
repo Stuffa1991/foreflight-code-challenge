@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   inject,
+  OnDestroy,
   OnInit,
   signal,
   Signal,
@@ -16,6 +17,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { WeatherReportViewModel } from '@app/features/weather/models/weather-report-view.model';
 import { WeatherReportTypes } from '@app/features/weather/models/weather-report-types.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-weather',
@@ -23,10 +25,13 @@ import { WeatherReportTypes } from '@app/features/weather/models/weather-report-
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.scss',
 })
-export class WeatherComponent implements OnInit {
-  activatedRoute = inject(ActivatedRoute);
-  router = inject(Router);
-  weatherReportType: WritableSignal<WeatherReportTypes | null> = signal(null);
+export class WeatherComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private weatherReportType: WritableSignal<WeatherReportTypes | null> =
+    signal(null);
+
   routerOutletData: Signal<WeatherReportViewModel> = computed(() => ({
     weatherReportType: this.weatherReportType() ?? null,
   }));
@@ -34,7 +39,7 @@ export class WeatherComponent implements OnInit {
   ngOnInit() {
     this.updateViewData();
 
-    this.router.events.subscribe(event => {
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.updateViewData();
       }
@@ -48,5 +53,10 @@ export class WeatherComponent implements OnInit {
       ]?.toUpperCase();
 
     this.weatherReportType.set(reportType);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

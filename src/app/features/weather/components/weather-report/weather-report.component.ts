@@ -56,14 +56,18 @@ export class WeatherReportComponent {
 
   async onSubmit() {
     if (this.searchForm.valid) {
-      this.isFetchingNewReport.update(() => true);
-      this.weatherReport.update(() => null);
-      const icaoCode = this.searchForm.get('icaoCode')?.value;
-      const weatherReport =
-        await this.weatherService.getWeatherReportByICAOCode(icaoCode);
-
-      this.weatherReport.update(() => weatherReport);
-      this.isFetchingNewReport.update(() => false);
+      try {
+        this.isFetchingNewReport.update(() => true);
+        this.weatherReport.update(() => null);
+        const icaoCode = this.searchForm.get('icaoCode')?.value;
+        const weatherReport =
+          await this.weatherService.getWeatherReportByICAOCode(icaoCode);
+        this.weatherReport.update(() => weatherReport);
+      } catch (error) {
+        console.error('Failed to fetch weather report:', error);
+      } finally {
+        this.isFetchingNewReport.update(() => false);
+      }
     }
   }
 }
