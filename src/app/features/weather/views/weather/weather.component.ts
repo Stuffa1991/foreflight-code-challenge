@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   OnInit,
   signal,
@@ -10,46 +11,42 @@ import {
   ActivatedRoute,
   NavigationEnd,
   Router,
-  RouterLink,
   RouterOutlet,
 } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, map, of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { WeatherReportViewModel } from '@app/features/weather/models/weather-report-view.model';
+import { WeatherReportTypes } from '@app/features/weather/models/weather-report-types.model';
 
 @Component({
   selector: 'app-weather',
-  imports: [RouterOutlet, FormsModule, RouterLink],
+  imports: [RouterOutlet, FormsModule],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.scss',
 })
 export class WeatherComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
-  isDefaultView: WritableSignal<boolean> = signal(false);
+  weatherReportType: WritableSignal<WeatherReportTypes | null> = signal(null);
+  routerOutletData: Signal<WeatherReportViewModel> = computed(() => ({
+    weatherReportType: this.weatherReportType() ?? null,
+  }));
 
   ngOnInit() {
-    this.updateIsDefaultView();
+    this.updateViewData();
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.updateIsDefaultView();
+        this.updateViewData();
       }
     });
   }
 
-  weatherReport: Signal<WeatherReportViewModel> = toSignal(
-    this.activatedRoute.data.pipe(
-      map(data => data['weatherReport']),
-      catchError(() => of(null))
-    ),
-    { initialValue: null }
-  );
+  updateViewData() {
+    const reportType: WeatherReportTypes =
+      this.activatedRoute.firstChild?.snapshot.params[
+        'reportType'
+      ]?.toUpperCase();
 
-  updateIsDefaultView() {
-    this.isDefaultView.set(
-      !!this.activatedRoute.firstChild?.snapshot.data['isDefaultView']
-    );
+    this.weatherReportType.set(reportType);
   }
 }

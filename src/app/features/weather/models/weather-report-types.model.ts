@@ -1,8 +1,7 @@
-type WeatherReportMETAR = 'METAR';
-type WeatherReportTAF = 'TAF';
-type WeatherReportFULL = 'FULL';
+export type WeatherReportTypes = WeatherReportType;
 
-export type WeatherReportTypes =
-  | WeatherReportMETAR
-  | WeatherReportTAF
-  | WeatherReportFULL;
+export enum WeatherReportType {
+  METAR = 'METAR',
+  TAF = 'TAF',
+  FULL = 'FULL',
+}
