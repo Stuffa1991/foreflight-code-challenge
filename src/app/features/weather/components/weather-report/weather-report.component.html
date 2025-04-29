@@ -24,6 +24,21 @@
 </div>
 
 @if (weatherReportViewModel().weatherReportType; as weatherReportType) {
+  @if (previousSearches().size !== 0) {
+    <div class="previous__searches">
+      <h3 class="previous__searches-header">Previous Searches</h3>
+      <ul class="previous__searches-list">
+        @for (icaoCode of previousSearches(); track $index) {
+          <li class="previous__searches-list-item">
+            <a class="previous__searches-link" routerLink="/weather/{{ weatherReportType }}/{{ icaoCode }}">
+              {{ icaoCode }}
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
   <div class="weather-report">
     <h1 class="weather-report__title">{{ weatherReportType }}</h1>
   </div>

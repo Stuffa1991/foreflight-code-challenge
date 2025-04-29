@@ -1,3 +1,36 @@
+.previous__searches {
+  margin: 1.25rem 0;
+  padding: 0.9375rem;
+  border-radius: 0.5rem;
+  background-color: #f5f5f5;
+
+  &-header {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0.75rem;
+  }
+
+  &-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &-link {
+    display: block;
+    color: #2196f3;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      color: #1976d2;
+    }
+  }
+}
+
 .weather-report {
   padding: 0.625rem;
   background-color: #f8f9fa;
@@ -74,9 +107,8 @@
   &__error {
     color: #dc3545;
     padding: 1rem;
-    background-color: #fff5f5;
     border-radius: 0.375rem;
-    text-align: center;
+    font-size: 1.125rem;
   }
 }
 

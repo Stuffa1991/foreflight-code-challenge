@@ -20,6 +20,8 @@ import {
 } from '@angular/forms';
 import { WeatherReportService } from '@app/features/weather/services/weather-report.service';
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IcaoReportRequestNotFoundModel } from '@app/features/weather/models/icao-report-request-not-found.model';
 
 @Component({
   selector: 'app-metar-component',
@@ -42,8 +44,8 @@ export class WeatherReportComponent {
   weatherReport: WritableSignal<WeatherReportViewModelData | null> =
     signal(null);
   isFetchingNewReport = signal(false);
-
   searchForm: FormGroup;
+  previousSearches: WritableSignal<Set<string[]>> = signal(new Set([]));
 
   constructor(private fb: FormBuilder) {
     this.searchForm = this.fb.group({
@@ -63,8 +65,18 @@ export class WeatherReportComponent {
         const weatherReport =
           await this.weatherService.getWeatherReportByICAOCode(icaoCode);
         this.weatherReport.update(() => weatherReport);
+
+        this.previousSearches.update(previousSearches => {
+          previousSearches.add(icaoCode);
+          return previousSearches;
+        });
       } catch (error) {
-        console.error('Failed to fetch weather report:', error);
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 404) {
+            const model = error.error as IcaoReportRequestNotFoundModel;
+            this.weatherReport.update(() => model);
+          }
+        }
       } finally {
         this.isFetchingNewReport.update(() => false);
       }
