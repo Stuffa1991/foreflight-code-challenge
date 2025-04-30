@@ -39,17 +39,14 @@
     </div>
   }
 
-  <div class="weather-report">
-    <h1 class="weather-report__title">{{ weatherReportType }}</h1>
-  </div>
   @if (weatherReport(); as weatherReport) {
     @if (weatherReport | TypeIsIcaoReport) {
-      <div class="weather-report__content">
-        @if (weatherReportType === "METAR" || weatherReportType === "FULL") {
-          @if (weatherReportType === "FULL") {
-            <h1 class="weather-report__title">METAR</h1>
-          }
+      @if (weatherReportType === "METAR" || weatherReportType === "FULL") {
+        <div class="weather-report">
+          <h1 class="weather-report__title">METAR</h1>
+        </div>
 
+        <div class="weather-report__content">
           <div class="weather-report__conditions weather-report__conditions--single">
             <div class="weather-report__conditions-value">
               {{ weatherReport.report.conditions.text }}
@@ -114,13 +111,15 @@
               {{ weatherReport.report.conditions.densityAltitudeFt }}'
             </div>
           </div>
-        }
+        </div>
+      }
 
-        @if (weatherReportType === "TAF" || weatherReportType === "FULL") {
-          @if (weatherReportType === "FULL") {
-            <h1 class="weather-report__title">TAF</h1>
-          }
+      @if (weatherReportType === "TAF" || weatherReportType === "FULL") {
+        <div class="weather-report">
+          <h1 class="weather-report__title">TAF</h1>
+        </div>
 
+        <div class="weather-report__content">
           <div class="weather-report__forecast weather-report__forecast--single">
             <div class="weather-report__forecast-value">
               {{ weatherReport.report.forecast.text }}
@@ -175,8 +174,8 @@
               </div>
             }
           </div>
-        }
-      </div>
+        </div>
+      }
     } @else if (weatherReport | TypeIsIcaoReportNotFound) {
       <div class="weather-report__error">Not Found</div>
     }
