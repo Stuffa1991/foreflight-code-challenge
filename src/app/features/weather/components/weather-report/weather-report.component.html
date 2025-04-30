@@ -7,6 +7,23 @@
   </div>
 </div>
 
+@if (weatherReportViewModel().weatherReportType; as weatherReportType) {
+  @if (previousSearches().size !== 0) {
+    <div class="previous__searches">
+      <h3 class="previous__searches-header">Previous Searches</h3>
+      <ul class="previous__searches-list">
+        @for (icaoCode of previousSearches(); track $index) {
+          <li class="previous__searches-list-item">
+            <a class="previous__searches-link" routerLink="/weather/{{ weatherReportType }}/{{ icaoCode }}">
+              {{ icaoCode }}
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+}
+
 <div class="search-form">
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <div class="search-form__group">
@@ -24,21 +41,6 @@
 </div>
 
 @if (weatherReportViewModel().weatherReportType; as weatherReportType) {
-  @if (previousSearches().size !== 0) {
-    <div class="previous__searches">
-      <h3 class="previous__searches-header">Previous Searches</h3>
-      <ul class="previous__searches-list">
-        @for (icaoCode of previousSearches(); track $index) {
-          <li class="previous__searches-list-item">
-            <a class="previous__searches-link" routerLink="/weather/{{ weatherReportType }}/{{ icaoCode }}">
-              {{ icaoCode }}
-            </a>
-          </li>
-        }
-      </ul>
-    </div>
-  }
-
   @if (weatherReport(); as weatherReport) {
     @if (weatherReport | TypeIsIcaoReport) {
       @if (weatherReportType === "METAR" || weatherReportType === "FULL") {
