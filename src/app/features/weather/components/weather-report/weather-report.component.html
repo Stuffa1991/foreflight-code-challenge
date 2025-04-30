@@ -44,71 +44,71 @@
       @if (weatherReportType === "METAR" || weatherReportType === "FULL") {
         <div class="weather-report">
           <h1 class="weather-report__title">METAR</h1>
-        </div>
 
-        <div class="weather-report__content">
-          <div class="weather-report__conditions weather-report__conditions--single">
-            <div class="weather-report__conditions-value">
-              {{ weatherReport.report.conditions.text }}
+          <div class="weather-report__content">
+            <div class="weather-report__conditions weather-report__conditions--single">
+              <div class="weather-report__conditions-value">
+                {{ weatherReport.report.conditions.text }}
+              </div>
             </div>
-          </div>
-          <div class="weather-report__conditions">
-            <div class="weather-report__conditions-name">
-              Time Issued
-            </div>
-            <div class="weather-report__conditions-value">
-              {{ weatherReport.report.conditions.dateIssued | date:'medium':'CDT' }} CDT
-            </div>
-          </div>
-          <div class="weather-report__conditions">
-            <div class="weather-report__conditions-name">
-              Winds
-            </div>
-            <div class="weather-report__conditions-value">
-              {{ weatherReport.report.conditions.wind.from }}° at {{ weatherReport.report.conditions.wind.speedKts }}
-              kts
-            </div>
-          </div>
-          <div class="weather-report__conditions">
-            <div class="weather-report__conditions-name">
-              Visibility
-            </div>
-            <div class="weather-report__conditions-value">
-              {{ weatherReport.report.conditions.visibility.distanceSm }} sm
-            </div>
-          </div>
-          @for (cloudLayer of weatherReport.report.conditions.cloudLayersV2; track $index) {
             <div class="weather-report__conditions">
               <div class="weather-report__conditions-name">
-                Clouds (AGL)
+                Time Issued
               </div>
               <div class="weather-report__conditions-value">
-                {{ cloudLayer.coverage }} {{ cloudLayer.altitudeFt }}'
+                {{ weatherReport.report.conditions.dateIssued | date:'medium':'CDT' }} CDT
               </div>
             </div>
-          }
-          <div class="weather-report__conditions">
-            <div class="weather-report__conditions-name">
-              Temperature
+            <div class="weather-report__conditions">
+              <div class="weather-report__conditions-name">
+                Winds
+              </div>
+              <div class="weather-report__conditions-value">
+                {{ weatherReport.report.conditions.wind.from }}° at {{ weatherReport.report.conditions.wind.speedKts }}
+                kts
+              </div>
             </div>
-            <div class="weather-report__conditions-value">
-              {{ weatherReport.report.conditions.tempC }} °C
+            <div class="weather-report__conditions">
+              <div class="weather-report__conditions-name">
+                Visibility
+              </div>
+              <div class="weather-report__conditions-value">
+                {{ weatherReport.report.conditions.visibility.distanceSm }} sm
+              </div>
             </div>
-          </div>
-          <div class="weather-report__conditions">
-            <div class="weather-report__conditions-name">
-              Dewpoint
+            @for (cloudLayer of weatherReport.report.conditions.cloudLayersV2; track $index) {
+              <div class="weather-report__conditions">
+                <div class="weather-report__conditions-name">
+                  Clouds (AGL)
+                </div>
+                <div class="weather-report__conditions-value">
+                  {{ cloudLayer.coverage }} {{ cloudLayer.altitudeFt }}'
+                </div>
+              </div>
+            }
+            <div class="weather-report__conditions">
+              <div class="weather-report__conditions-name">
+                Temperature
+              </div>
+              <div class="weather-report__conditions-value">
+                {{ weatherReport.report.conditions.tempC }} °C
+              </div>
             </div>
-            <div class="weather-report__conditions-value">
-              {{ weatherReport.report.conditions.dewpointC }} °C
+            <div class="weather-report__conditions">
+              <div class="weather-report__conditions-name">
+                Dewpoint
+              </div>
+              <div class="weather-report__conditions-value">
+                {{ weatherReport.report.conditions.dewpointC }} °C
+              </div>
             </div>
-          </div>
-          <div class="weather-report__conditions">
-            <div class="weather-report__conditions-name">
-              Density Altitude
-            </div>
-            <div class="weather-report__conditions-value">
-              {{ weatherReport.report.conditions.densityAltitudeFt }}'
+            <div class="weather-report__conditions">
+              <div class="weather-report__conditions-name">
+                Density Altitude
+              </div>
+              <div class="weather-report__conditions-value">
+                {{ weatherReport.report.conditions.densityAltitudeFt }}'
+              </div>
             </div>
           </div>
         </div>
@@ -117,63 +117,64 @@
       @if (weatherReportType === "TAF" || weatherReportType === "FULL") {
         <div class="weather-report">
           <h1 class="weather-report__title">TAF</h1>
-        </div>
 
-        <div class="weather-report__content">
-          <div class="weather-report__forecast weather-report__forecast--single">
-            <div class="weather-report__forecast-value">
-              {{ weatherReport.report.forecast.text }}
+          <div class="weather-report__content">
+            <div class="weather-report__forecast weather-report__forecast--single">
+              <div class="weather-report__forecast-value">
+                {{ weatherReport.report.forecast.text }}
+              </div>
+            </div>
+            <div class="weather-report__forecast-condition">
+              @for (forecast of weatherReport.report.forecast.conditions; track $index) {
+                <div class="weather-report__forecast-condition-header">
+                  {{ forecast.dateIssued | date:'medium':'CDT' }} CDT
+                </div>
+                <div class="weather-report__forecast weather-report__forecast--padding-left-right">
+                  <div class="weather-report__forecast-name">
+                    Flight rules
+                  </div>
+                  <div class="weather-report__forecast-value">
+                    {{ forecast.flightRules }}
+                  </div>
+                </div>
+                <div class="weather-report__forecast weather-report__forecast--padding-left-right">
+                  <div class="weather-report__forecast-name">
+                    Winds
+                  </div>
+                  <div class="weather-report__forecast-value">
+                    {{ forecast.wind.from }}° at {{ forecast.wind.speedKts }} kts
+                  </div>
+                </div>
+                <div class="weather-report__forecast weather-report__forecast--padding-left-right">
+                  <div class="weather-report__forecast-name">
+                    Visibility
+                  </div>
+                  <div class="weather-report__forecast-value">
+                    {{ forecast.visibility.distanceSm }} sm
+                  </div>
+                </div>
+                <div class="weather-report__forecast weather-report__forecast--padding-left-right">
+                  <div class="weather-report__forecast-name">
+                    Clouds (AGL)
+                  </div>
+                  <div class="weather-report__forecast-value">
+                    @for (cloudLayer of forecast.cloudLayersV2; track $index) {
+                      {{ cloudLayer.coverage }} {{ cloudLayer.altitudeFt }}'
+                    }
+                  </div>
+                </div>
+                <div class="weather-report__forecast weather-report__forecast--padding-left-right">
+                  <div class="weather-report__forecast-name">
+                    Expires
+                  </div>
+                  <div class="weather-report__forecast-value">
+                    {{ forecast.period.dateEnd | date:'shortTime':'CDT' }} CDT
+                  </div>
+                </div>
+              }
             </div>
           </div>
-          <div class="weather-report__forecast-condition">
-            @for (forecast of weatherReport.report.forecast.conditions; track $index) {
-              <div class="weather-report__forecast-condition-header">
-                {{ forecast.dateIssued | date:'medium':'CDT' }} CDT
-              </div>
-              <div class="weather-report__forecast weather-report__forecast--padding-left-right">
-                <div class="weather-report__forecast-name">
-                  Flight rules
-                </div>
-                <div class="weather-report__forecast-value">
-                  {{ forecast.flightRules }}
-                </div>
-              </div>
-              <div class="weather-report__forecast weather-report__forecast--padding-left-right">
-                <div class="weather-report__forecast-name">
-                  Winds
-                </div>
-                <div class="weather-report__forecast-value">
-                  {{ forecast.wind.from }}° at {{ forecast.wind.speedKts }} kts
-                </div>
-              </div>
-              <div class="weather-report__forecast weather-report__forecast--padding-left-right">
-                <div class="weather-report__forecast-name">
-                  Visibility
-                </div>
-                <div class="weather-report__forecast-value">
-                  {{ forecast.visibility.distanceSm }} sm
-                </div>
-              </div>
-              <div class="weather-report__forecast weather-report__forecast--padding-left-right">
-                <div class="weather-report__forecast-name">
-                  Clouds (AGL)
-                </div>
-                <div class="weather-report__forecast-value">
-                  @for (cloudLayer of forecast.cloudLayersV2; track $index) {
-                    {{ cloudLayer.coverage }} {{ cloudLayer.altitudeFt }}'
-                  }
-                </div>
-              </div>
-              <div class="weather-report__forecast weather-report__forecast--padding-left-right">
-                <div class="weather-report__forecast-name">
-                  Expires
-                </div>
-                <div class="weather-report__forecast-value">
-                  {{ forecast.period.dateEnd | date:'shortTime':'CDT' }} CDT
-                </div>
-              </div>
-            }
-          </div>
+
         </div>
       }
     } @else if (weatherReport | TypeIsIcaoReportNotFound) {
@@ -181,29 +182,23 @@
     }
   } @else if (isFetchingNewReport()) {
     @if (weatherReportType === "METAR" || weatherReportType === "FULL") {
-      <div class="skeleton-wrapper">
+      <div class="skeleton-wrapper weather-report">
         <div class="skeleton skeleton--heading"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
+        <div class="weather-report__content">
+          @for (_ of [].constructor(8); track $index) {
+            <div class="skeleton skeleton--text weather-report__conditions"></div>
+          }
+        </div>
       </div>
     }
     @if (weatherReportType === "TAF" || weatherReportType === "FULL") {
-      <div class="skeleton-wrapper">
+      <div class="skeleton-wrapper weather-report">
         <div class="skeleton skeleton--heading"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
-        <div class="skeleton skeleton--text"></div>
+        <div class="weather-report__content">
+          @for (_ of [].constructor(5); track $index) {
+            <div class="skeleton skeleton--text weather-report__conditions"></div>
+          }
+        </div>
       </div>
     }
   }
